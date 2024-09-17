@@ -36,23 +36,18 @@ public class JsonDeserializer implements ConverterDeserializer {
                 if (jsonValue == JSONObject.NULL) {
                     field.set(obj, null);
                 } else if (isPrimitiveOrWrapper(fieldType)) {
-                    // Обработка UUID
                     if (fieldType == UUID.class && jsonValue instanceof String) {
                         field.set(obj, UUID.fromString((String) jsonValue));
                     }
-                    // Обработка LocalDate
                     else if (fieldType == LocalDate.class && jsonValue instanceof String) {
                         field.set(obj, LocalDate.parse((String) jsonValue));
                     }
-                    // Обработка OffsetDateTime
                     else if (fieldType == OffsetDateTime.class && jsonValue instanceof String) {
                         field.set(obj, OffsetDateTime.parse((String) jsonValue));
                     }
-                    // Обработка Double
                     else if (fieldType == Double.class && jsonValue instanceof BigDecimal) {
                         field.set(obj, ((BigDecimal) jsonValue).doubleValue());
                     }
-                    // Обработка всех других примитивных типов и оберток
                     else {
                         field.set(obj, jsonValue);
                     }

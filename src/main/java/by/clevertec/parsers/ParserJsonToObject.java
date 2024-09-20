@@ -1,8 +1,11 @@
 package by.clevertec.parsers;
 
+import by.clevertec.helper.ReadJsonImpl;
+import by.clevertec.interfaces.Checker;
 import by.clevertec.interfaces.JsonParser;
 import by.clevertec.interfaces.ParserStringToMap;
 import by.clevertec.interfaces.ReadJson;
+import by.clevertec.util.CheckerData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -17,7 +20,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class JsonParserToObject implements JsonParser {
+public class ParserJsonToObject implements JsonParser {
 
     ParserStringToMap parserStringToMap = new ParserStringToMapImpl();
 
@@ -41,13 +44,14 @@ public class JsonParserToObject implements JsonParser {
 
     private <T> T mapToObject(Map<String, Object> map, Class<T> clazz) throws Exception {
         T instance = clazz.getDeclaredConstructor().newInstance();
+        Checker checker = new CheckerData();
 
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
             Object value = map.get(field.getName());
 
             if (value != null) {
-                if (isPrimitiveOrWrapper(field.getType())) {
+                if (checker.isPrimitiveOrWrapper(field.getType())) {
                     field.set(instance, convertValue(value.toString(), field.getType()));
                 } else if (Collection.class.isAssignableFrom(field.getType())) {
                     ParameterizedType collectionType = (ParameterizedType) field.getGenericType();
@@ -100,17 +104,6 @@ public class JsonParserToObject implements JsonParser {
             }
         }
         return instance;
-    }
-
-    private boolean isPrimitiveOrWrapper(Class<?> clazz) {
-        return clazz.isPrimitive() ||
-                clazz == String.class ||
-                clazz == Integer.class ||
-                clazz == Double.class ||
-                clazz == Boolean.class ||
-                clazz == UUID.class ||
-                clazz == LocalDate.class ||
-                clazz == OffsetDateTime.class;
     }
 
     private Object convertValue(String value, Class<?> type) {

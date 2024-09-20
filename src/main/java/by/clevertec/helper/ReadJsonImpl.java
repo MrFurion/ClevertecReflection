@@ -1,4 +1,4 @@
-package by.clevertec.parsers;
+package by.clevertec.helper;
 
 import by.clevertec.interfaces.ReadJson;
 import lombok.SneakyThrows;

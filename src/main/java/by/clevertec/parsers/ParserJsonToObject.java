@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+@SuppressWarnings("unchecked")
 public class ParserJsonToObject implements JsonParser {
 
     ParserStringToMap parserStringToMap = new ParserStringToMapImpl();
@@ -41,7 +41,7 @@ public class ParserJsonToObject implements JsonParser {
         }
         throw new IllegalArgumentException("Invalid JSON format");
     }
-
+    @SuppressWarnings("unchecked")
     private <T> T mapToObject(Map<String, Object> map, Class<T> clazz) throws Exception {
         T instance = clazz.getDeclaredConstructor().newInstance();
         Checker checker = new CheckerData();

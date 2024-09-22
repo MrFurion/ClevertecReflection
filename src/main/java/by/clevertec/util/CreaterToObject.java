@@ -8,6 +8,7 @@ import by.clevertec.models.Product;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -30,7 +31,7 @@ public class CreaterToObject implements ObjectGenerator {
                                 .price(77.88)
                                 .prices(Map.of(UUID.randomUUID(), BigDecimal.valueOf(899.99)))
                                 .build()))
-                        .createDate(OffsetDateTime.now())
+                        .createDate(OffsetDateTime.of(2024, 9, 22, 21, 56, 31, 524044200, ZoneOffset.ofHours(3)))
                         .build()))
                 .build();
     }
